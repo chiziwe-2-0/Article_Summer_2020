@@ -63,7 +63,7 @@ def pack_size(date):
     return bytes_per_packet
 
 def hrm_realtime(data):
-    frq = 100
+    frq = 80
 #    plt.hist(pack_size(date=date), bins=frq)
    # plt.plot()
     x = [i for i in range(1, len(data))]

@@ -17,7 +17,7 @@ s = np.random.lognormal(mu, sigma, 1000)
 sns.set_style("whitegrid")
 sns_plot = sns.distplot(s, bins=50)
 sns_plot.get_figure()
-# name = filename
+# name = filenamee
 # sns_plot.figure.suptitle("Test", fontsize=14)
 
 plt.xticks()

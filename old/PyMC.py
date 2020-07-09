@@ -7,7 +7,7 @@ import math
 mu, sigma = 4.521431456632384, 0.5038211434088776  #1.00019129501155746831292345   # mean and standard deviation
 
 #DP163.31407924061702
-#SP248
+#SP24
 
 s = np.random.lognormal(mu, sigma, 500)
 #np.save("ish", s)

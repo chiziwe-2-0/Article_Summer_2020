@@ -15,7 +15,7 @@ from matplotlib import pyplot
 from collections import defaultdict
 
 
-a = np.load('dpnorm.npy')
+a = np.load('dspnorm.npy')
 # a = a[:-27000]
 # b = np.load('DPt.npy')
 # #b = b[:-8500]

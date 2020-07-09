@@ -6,7 +6,6 @@ def mysql(direction):
     from sshtunnel import SSHTunnelForwarder
     from os.path import expanduser
 
-    home = expanduser('~')
 
     sql_hostname = 'localhost'
     sql_username = 'root'

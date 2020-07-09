@@ -3,7 +3,7 @@ import numpy as np
 from numpy import mean
 
 a, res, yn = [], [], []
-summa = 0
+summa = 0.0
 
 diskret = lambda lst, sz: [lst[i:i+sz] for i in range(0, len(lst), sz)]
 
