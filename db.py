@@ -3,24 +3,21 @@ import psycopg2.extras
 
 
 class Db(object):
-    """
-    Класс работы с базой данных.
-    """
+
     _instance = None
     _connection = None
 
-    def __new__(self, **kwargs):
+    def __new__(cls, **kwargs):
         if Db._instance is None:
-            Db._instance = object.__new__(self)
-            print('create Db class...')
+            Db._instance = object.__new__(cls)
         return Db._instance
 
     def __init__(self, host="localhost", user=None, password=None, db=None):
         if Db._instance is not None and user is not None:
-            print('connect to {}...'.format(db))
+            print('Connect to {}...'.format(db))
             try:
                 self._connection = psycopg2.connect("host='{0}' user='{1}' password='{2}' dbname='{3}'".format(
-                        host, user, password, db))
+                    host, user, password, db))
             except psycopg2.Error as err:
                 print("Connection error: {}".format(err))
                 self._connection.close()
