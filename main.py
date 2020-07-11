@@ -7,9 +7,9 @@ from plot import plot_bar
 
 # iodine HTTP
 ds = '2020-07-08'
-ts = '15:25:00'
+ts = '15:20:00'
 de = '2020-07-08'
-te = '15:27:00'
+te = '15:40:00'
 
 #time, size = return_all_ishod(date_start=ds, time_start=ts,
 #                              date_end=de, time_end=te)

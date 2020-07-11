@@ -5,7 +5,9 @@ ts = '15:25:00'
 de = '2020-07-08'
 te = '15:55:00'
 
-a = np.load('packs.npy')
+dt_start = DT.datetime.fromisoformat(ds + ' ' + ts)
+dt_end = DT.datetime.fromisoformat(de + ' ' + te)
 
-print(len(a))
+dt_start_unix_MSK = dt_start.timestamp() + 10800
 
+print(dt_start_unix_MSK)
