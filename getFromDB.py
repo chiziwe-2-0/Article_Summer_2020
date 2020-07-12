@@ -23,7 +23,8 @@ def return_all_ishod(date_start, time_start, date_end, time_end):
 
     quantity = BD.query(sql="SELECT count(*) FROM netsessions " +
                             "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
-                            str(dt_end_unix_MSK) + " AND srcip like '10.227.11.%' AND dstport='53') ORDER BY frametime;")
+                            str(
+                                dt_end_unix_MSK) + " AND srcip like '10.227.11.%' AND dstport='53') ORDER BY frametime;")
 
     np.save('Исходящий (' + date_start + ' ' + time_start + ' - ' + date_end + ' ' + time_end + ').npy', packs)
 
@@ -43,7 +44,8 @@ def return_all_vhod(date_start, time_start, date_end, time_end):
 
     quantity = BD.query(sql="SELECT count(*) FROM netsessions " +
                             "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
-                            str(dt_end_unix_MSK) + " AND dstip like '10.227.11.%' AND srcport='53') ORDER BY frametime;")
+                            str(
+                                dt_end_unix_MSK) + " AND dstip like '10.227.11.%' AND srcport='53') ORDER BY frametime;")
 
     np.save("Входящий (" + date_start + " " + time_start + "; " + date_end + " " + time_end + ").npy", packs)
 
@@ -93,9 +95,9 @@ def ping(date_start, time_start, date_end, time_end):
     arr_packs = np.load("Входящий_ping.npy")
 
     delta = 3
-    response_time_arr = []
+    response_time_arr, time_x_arr = [], []
 
-    for i in range(len(arr_packs)):
+    for i in range(len(arr_packs) - 1):
         out_time = float(arr_packs[i][1])
         sip = str(arr_packs[i][2])
         sport = str(arr_packs[i][3])
@@ -107,9 +109,19 @@ def ping(date_start, time_start, date_end, time_end):
                               str(in_time) + " AND dstip = '" + str(sip.replace(' ', '')) + "' AND dstport= '" +
                               str(sport.replace(' ', '')) + "') ORDER BY frametime;")
 
-        response_time = float(answer[0][1]) - out_time
+        try:
+            response_time = float(answer[0][1]) - out_time
+        except IndexError:
+            pass
+
+        try:
+            time_x_arr.append(float(answer[0][1]))
+        except IndexError:
+            pass
+
         response_time_arr.append(response_time)
 
-    np.save("Запрос-ответ", packs)
+    np.save("Запрос-ответ", response_time_arr)
+    np.save("Время для графика (x)", time_x_arr)
 
     return response_time_arr
