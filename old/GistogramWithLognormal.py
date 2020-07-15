@@ -34,19 +34,19 @@ a = np.load('dspnorm.npy')
 # print(sum(yy)/len(yy))
 # print(max(yy))
 # print(min(yy))
-#x = [i for i in range(0, len(c))]
+# x = [i for i in range(0, len(c))]
 #
 #
 #
 # print(len(x))
 # print(len(yy))
 plt.hist(a, bins=80)
-#plt.hist(yy, bins=100)
+# plt.hist(yy, bins=100)
 plt.minorticks_on()
 
 plt.grid(which='minor',
-         color = 'gray',
-         linestyle = ':')
+         color='gray',
+         linestyle=':')
 plt.ylabel('Пакеты', fontsize=8)
 plt.xlabel('Размер пакетов, байт', fontsize=9)
 # print('Sampling frequency is', frq)

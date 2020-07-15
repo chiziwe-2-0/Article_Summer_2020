@@ -14,4 +14,5 @@ import numpy as np
 
 
 a = [x for x in range(10)]
+np.save('np_arrs/ttt', a)
 print(a)
