@@ -15,8 +15,8 @@ def return_all_ishod(date_start, time_start, date_end, time_end):
     dt_start = DT.datetime.fromisoformat(date_start + ' ' + time_start)
     dt_end = DT.datetime.fromisoformat(date_end + ' ' + time_end)
 
-    dt_start_unix_MSK = dt_start.timestamp() + 10800
-    dt_end_unix_MSK = dt_end.timestamp() + 10800
+    dt_start_unix_MSK = dt_start.timestamp() + 0
+    dt_end_unix_MSK = dt_end.timestamp() + 0
 
     packs = BD.query(sql="SELECT frametime, size FROM netsessions " +
                          "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
@@ -27,7 +27,7 @@ def return_all_ishod(date_start, time_start, date_end, time_end):
                             str(
                                 dt_end_unix_MSK) + " AND srcip like '10.227.11.%' AND dstport='53');")
 
-    np.save("np_arrs/Исходящий", packs)
+    np.save("np_arrs/RDP_исходящий(time+size)_iodine", packs)
 
     return packs, quantity
 
@@ -37,8 +37,8 @@ def return_all_vhod(date_start, time_start, date_end, time_end):
     dt_start = DT.datetime.fromisoformat(date_start + ' ' + time_start)
     dt_end = DT.datetime.fromisoformat(date_end + ' ' + time_end)
 
-    dt_start_unix_MSK = dt_start.timestamp() + 10800
-    dt_end_unix_MSK = dt_end.timestamp() + 10800
+    dt_start_unix_MSK = dt_start.timestamp() + 0
+    dt_end_unix_MSK = dt_end.timestamp() + 0
 
     packs = BD.query(sql="SELECT frametime, size FROM netsessions " +
                          "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
@@ -48,7 +48,7 @@ def return_all_vhod(date_start, time_start, date_end, time_end):
                             "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
                             str(dt_end_unix_MSK) + " AND dstip like '10.227.11.%' AND srcport='53');")
 
-    np.save("np_arrs/Входящий", packs)
+    np.save("np_arrs/RDP_входящий(time+size)_iodine", packs)
 
     return packs, quantity
 
@@ -58,8 +58,8 @@ def return_avg_packet_ishod(date_start, time_start, date_end, time_end):
     dt_start = DT.datetime.fromisoformat(date_start + ' ' + time_start)
     dt_end = DT.datetime.fromisoformat(date_end + ' ' + time_end)
 
-    dt_start_unix_MSK = dt_start.timestamp() + 10800
-    dt_end_unix_MSK = dt_end.timestamp() + 10800
+    dt_start_unix_MSK = dt_start.timestamp() + 0
+    dt_end_unix_MSK = dt_end.timestamp() + 0
 
     packs = BD.query(sql="SELECT avg(size) AS avgfs FROM netsessions " +
                          "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
@@ -72,8 +72,8 @@ def return_avg_packet_vhod(date_start, time_start, date_end, time_end):
     dt_start = DT.datetime.fromisoformat(date_start + ' ' + time_start)
     dt_end = DT.datetime.fromisoformat(date_end + ' ' + time_end)
 
-    dt_start_unix_MSK = dt_start.timestamp() + 10800
-    dt_end_unix_MSK = dt_end.timestamp() + 10800
+    dt_start_unix_MSK = dt_start.timestamp() + 0
+    dt_end_unix_MSK = dt_end.timestamp() + 0
 
     packs = BD.query(sql="SELECT avg(size) AS avgfs FROM netsessions " +
                          "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
@@ -86,17 +86,17 @@ def ping(date_start, time_start, date_end, time_end):
     dt_start = DT.datetime.fromisoformat(date_start + ' ' + time_start)
     dt_end = DT.datetime.fromisoformat(date_end + ' ' + time_end)
 
-    dt_start_unix_MSK = dt_start.timestamp() + 10800
-    dt_end_unix_MSK = dt_end.timestamp() + 10800
+    dt_start_unix_MSK = dt_start.timestamp() + 0
+    dt_end_unix_MSK = dt_end.timestamp() + 0
 
+    # исходящий
     packs = BD.query(sql="SELECT * FROM netsessions " +
                          "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
                          str(dt_end_unix_MSK) + " AND srcip like '10.227.11.%' AND dstport='53') ORDER BY frametime;")
 
-    np.save("np_arrs/Входящий_ping", packs)
-    # np.save("np_arrs/Входящий (%s %s - %s %s)" % (date_start, time_start, date_end, time_end), packs)
-
-    arr_packs = np.load("np_arrs/Входящий_ping.npy")
+    print(len(packs))
+    np.save("np_arrs/Исходящий_ping", packs)
+    arr_packs = np.load("np_arrs/Исходящий_ping.npy")
 
     delta = 3
     response_time_arr, time_x_arr = [], []
@@ -115,7 +115,15 @@ def ping(date_start, time_start, date_end, time_end):
 
         try:
             response_time = float(answer[0][1]) - out_time
+            count = 0
+
+            if i % 1000 == 0:
+                print(count, response_time)
+                count += 1
+
         except IndexError:
+            pass
+        except TypeError:
             pass
 
         try:
@@ -125,7 +133,7 @@ def ping(date_start, time_start, date_end, time_end):
 
         response_time_arr.append(response_time)
 
-    np.save("np_arrs/Запрос-ответ", response_time_arr)
-    np.save("np_arrs/Время для графика (x)", time_x_arr)
+    np.save("np_arrs/FTP/FTP_запрос-ответ_iodine", response_time_arr)
+    np.save("np_arrs/FTP/FTP_абсциссы_для_запрос_ответ_iodine", time_x_arr)
 
     return response_time_arr
