@@ -26,25 +26,27 @@ def window_aggregation(arr, window):
 # на вход подается массив БД (time + srcip + srcport + dstip + dstport + size)
 def vhod_ishod_ping_from_file(filename):
     vhod, ishod, temp_vhod, temp_ishod = [], [], [], []
-    with open('arrs/' + filename) as f:
+    with open("arrs/" + filename) as f:
         myList = [line.replace('\n', '').split(",") for line in f]
 
-    for i in range(len(myList)):
-        # входящий
-        if int(myList[i][2][1:-1]) == 22:
-            if myList[i][3][1:-1] == "10.227.11.45":
-                fp_vhod = [float(myList[i][0][1: -1]), float(myList[i][5][1: -1])]
-                temp_vhod_once = [float(myList[i][0][1: -1]), myList[i][1][1: -1], myList[i][2][1: -1], myList[i][3][1: -1], myList[i][4][1: -1]]
-                temp_vhod.append(temp_vhod_once)
-                vhod.append(fp_vhod)
-
+    for i in range(150000):
         # исходящий
-        if int(myList[i][4][1:-1]) == 22:
-            if myList[i][1][1:-1] == '10.227.11.45':
-                fp_ishod = [float(myList[i][0][1: -1]), float(myList[i][5][1: -1])]
-                temp_ishod_once = [float(myList[i][0][1: -1]), myList[i][1][1: -1], myList[i][2][1: -1], myList[i][3][1: -1], myList[i][4][1: -1]]
-                temp_ishod.append(temp_ishod_once)
-                ishod.append(fp_ishod)
+        # if int(myList[i][2][1:-1]) == 22:
+        if myList[i][3][1:-1] == "185.50.25.29":
+            fp_vhod = [float(myList[i][0][1: -1]), float(myList[i][5][1: -1])]
+            temp_vhod_once = [float(myList[i][0][1: -1]), myList[i][1][1: -1], myList[i][2][1: -1], myList[i][3][1: -1],
+                              myList[i][4][1: -1]]
+            temp_vhod.append(temp_vhod_once)
+            vhod.append(fp_vhod)
+
+        # входящий
+        # if int(myList[i][4][1:-1]) == 22:
+        if myList[i][1][1:-1] == '185.50.25.29':
+            fp_ishod = [float(myList[i][0][1: -1]), float(myList[i][5][1: -1])]
+            temp_ishod_once = [float(myList[i][0][1: -1]), myList[i][1][1: -1], myList[i][2][1: -1],
+                               myList[i][3][1: -1], myList[i][4][1: -1]]
+            temp_ishod.append(temp_ishod_once)
+            ishod.append(fp_ishod)
 
     # запрос-ответ
     delta = 3
@@ -65,6 +67,9 @@ def vhod_ishod_ping_from_file(filename):
 
         try:
             response_time = float(answer[0]) - out_time
+            if i % 1000 == 0:
+                print(response_time)
+
         except IndexError:
             pass
 
