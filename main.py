@@ -6,20 +6,20 @@ import modData
 
 # INPUT LIKE THIS '2019-12-24 04:00:00'
 
-# iodine HTTP
-# ds = '2020-07-16'
-# ts = '16:36:00'
-# de = '2020-07-16'
-# te = '16:48:00'
-
 ds = '2020-07-16'
 ts = '16:36:00'
 de = '2020-07-16'
 te = '16:48:00'
 
+x, y = [], []
+array = np.load('np_arrs/FTP/pure/ishod_ftp.txt.npy')
+print(array)
 
-# x = np.load('np_arrs/Время для графика (x).npy')
-# y = np.load('np_arrs/Запрос-ответ.npy')
-#
-print(modData.vhod_ishod_ping_from_file('ftp.txt'))
+for line in array:
+ #    if line[1] < 1500:
+        x.append(line[0])
+        y.append(line[1])
 
+avg = str((sum(y) / len(y)))
+
+plot.plot_bar(x, y, name="Средний размер пакета = " + avg, filename="FTP_исходящий_no_tun", x_label="Время", y_label="Размер пакета, байт")
