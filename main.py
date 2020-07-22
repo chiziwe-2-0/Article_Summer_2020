@@ -6,20 +6,22 @@ import modData
 
 # INPUT LIKE THIS '2019-12-24 04:00:00'
 
-ds = '2020-07-16'
-ts = '16:36:00'
-de = '2020-07-16'
-te = '16:48:00'
+ds = '2020-07-17'
+ts = '12:20:00'
+de = '2020-07-17'
+te = '12:32:00'
 
 x, y = [], []
-array = np.load('np_arrs/FTP/pure/ishod_ftp.txt.npy')
-print(array)
+y = np.load('np_arrs/RDP/pure/response_time_rdp.txt.npy')
 
-for line in array:
- #    if line[1] < 1500:
-        x.append(line[0])
-        y.append(line[1])
+# for line in array:
+#     #    if line[1] < 1500:
+#     x.append(line[0])
+#     y.append(line[1])
 
 avg = str((sum(y) / len(y)))
+print(y)
 
-plot.plot_bar(x, y, name="Средний размер пакета = " + avg, filename="FTP_исходящий_no_tun", x_label="Время", y_label="Размер пакета, байт")
+plot.plot_hist(y, name="Средний размер пакета = " + avg, filename="RDP_время_no_tun",
+               x_label="Время, с",
+               y_label="Количество")
