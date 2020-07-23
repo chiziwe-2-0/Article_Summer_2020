@@ -5,21 +5,22 @@ from getFromDB import return_all_vhod, return_all_ishod
 # на вход подается массив time + size (Finger Printing)
 # функция массив размеров пакетов с учетом окна агрегации
 def window_aggregation(arr, window, name="windows_aggr_"):
-    size = []
-    temp_size, counter, i = 0, 0, 0
-
+    temp_size, size = [], []
+    i = 0
     end = arr[0][0] + window
 
     while i < len(arr):
-        if arr[i][0] <= end:
-            temp_size += arr[i][1]
-            counter += 1
+        if arr[i][0] < end:
+            temp_size.append(arr[i][1])
+            if i == len(arr) - 1:
+                size.append(sum(temp_size) / len(temp_size))
             i += 1
         else:
-            temp_size = temp_size / counter
-            size.append(temp_size)
-            temp_size, counter = 0, 0
-            end += window
+            try:
+                size.append(sum(temp_size) / len(temp_size))
+                temp_size = []
+            except ZeroDivisionError:
+                end += window
 
     np.save("np_arrs/" + name + str(window), size)
     return size
