@@ -5,7 +5,8 @@ import numpy as np
 h = "192.168.132.250"
 u = "vsu"
 p = "2020"
-db = "traffcoll"
+# db = "traffcoll"
+db = "traffcoll_upto20200720"
 
 BD = Db(host=h, user=u, password=p, db=db)
 

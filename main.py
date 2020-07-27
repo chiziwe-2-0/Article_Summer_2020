@@ -11,17 +11,15 @@ ts = '12:20:00'
 de = '2020-07-17'
 te = '12:32:00'
 
-array = np.load('np_arrs/FTP/iodine/FTP_входящий(time+size)_iodine.npy')
+x, y = [], []
+array = np.load('np_arrs/RDP/iodine/RDP_входящий(time+size)_iodine.npy')
 
-y = window_aggregation(array, window=5)
-
-# for line in array:
-    #    if line[1] < 1500:
-    # x.append(line[0])
-    # y.append(line[1])
+for line in array:
+    x.append(line[0])
+    y.append(line[1])
 
 avg = str((sum(y) / len(y)))
 
-plot.plot_hist(y, name="Средний размер пакета = " + avg, filename="RDP_время_no_tun",
-               x_label="Время, с",
-               y_label="Количество")
+plot.plot_hist(y, name="Средний размер пакета = " + avg, filename="RDP_входящий_iodine_гистограмма",
+               y_label="Количество",
+               x_label="Размер пакета, байт")

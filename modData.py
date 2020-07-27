@@ -14,6 +14,7 @@ def window_aggregation(arr, window, name="windows_aggr_"):
             temp_size.append(arr[i][1])
             if i == len(arr) - 1:
                 size.append(sum(temp_size) / len(temp_size))
+                break
             i += 1
         else:
             try:
