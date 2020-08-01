@@ -1,12 +1,14 @@
 import datetime as DT
 from db import Db
 import numpy as np
+import progressbar
+import time
 
 h = "192.168.132.250"
 u = "vsu"
 p = "2020"
-# db = "traffcoll"
-db = "traffcoll_upto20200720"
+db = "traffcoll"
+# db = "traffcoll_upto20200720"
 
 BD = Db(host=h, user=u, password=p, db=db)
 
@@ -28,7 +30,7 @@ def return_all_ishod(date_start, time_start, date_end, time_end):
                             str(
                                 dt_end_unix_MSK) + " AND srcip like '10.227.11.%' AND dstport='53');")
 
-    np.save("np_arrs/RDP_исходящий(time+size)_iodine", packs)
+    # np.save("np_arrs/RDP_исходящий(time+size)_iodine", packs)
 
     return packs, quantity
 
@@ -49,7 +51,7 @@ def return_all_vhod(date_start, time_start, date_end, time_end):
                             "WHERE (frametime >= " + str(dt_start_unix_MSK) + " AND frametime <= " +
                             str(dt_end_unix_MSK) + " AND dstip like '10.227.11.%' AND srcport='53');")
 
-    np.save("np_arrs/RDP_входящий(time+size)_iodine", packs)
+    # np.save("np_arrs/RDP_входящий(time+size)_iodine", packs)
 
     return packs, quantity
 
@@ -84,6 +86,8 @@ def return_avg_packet_vhod(date_start, time_start, date_end, time_end):
 
 # функция возвращает время "запрос-ответ" всего трафика
 def ping(date_start, time_start, date_end, time_end):
+    count = 0
+
     dt_start = DT.datetime.fromisoformat(date_start + ' ' + time_start)
     dt_end = DT.datetime.fromisoformat(date_end + ' ' + time_end)
 
@@ -116,7 +120,6 @@ def ping(date_start, time_start, date_end, time_end):
 
         try:
             response_time = float(answer[0][1]) - out_time
-            count = 0
 
             if i % 1000 == 0:
                 print(count, response_time)
@@ -134,7 +137,7 @@ def ping(date_start, time_start, date_end, time_end):
 
         response_time_arr.append(response_time)
 
-    np.save("np_arrs/FTP/FTP_запрос-ответ_iodine", response_time_arr)
-    np.save("np_arrs/FTP/FTP_абсциссы_для_запрос_ответ_iodine", time_x_arr)
+    np.save("np_arrs/first/DNS/DNS_запрос-ответ", response_time_arr)
+    np.save("np_arrs/first/DNS/DNS_абсциссы_для_запрос_ответ", time_x_arr)
 
     return response_time_arr
