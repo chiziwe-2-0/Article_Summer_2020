@@ -137,7 +137,7 @@ def ping(date_start, time_start, date_end, time_end):
 
         response_time_arr.append(response_time)
 
-    np.save("np_arrs/first/DNS/DNS_запрос-ответ", response_time_arr)
-    np.save("np_arrs/first/DNS/DNS_абсциссы_для_запрос_ответ", time_x_arr)
+    np.save("np_arrs/first/DNS/HTTPS_in_DNS_запрос-ответ", response_time_arr)
+    np.save("np_arrs/first/DNS/HTTPS_in_DNS_абсциссы_для_запрос_ответ", time_x_arr)
 
     return response_time_arr
